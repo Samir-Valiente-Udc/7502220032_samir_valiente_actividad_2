@@ -1,0 +1,58 @@
+/* views/css/style.css */
+
+/* Estilos adicionales o sobrescritos para personalizar la apariencia */
+
+/* Ejemplo: Estilo para el pie de página */
+.footer {
+    margin-top: 50px;
+    padding: 20px;
+    background-color: #34495e; /* Color oscuro para el pie de página */
+    color: white;
+    border-top: 1px solid #e9ecef;
+    text-align: center;
+    border-radius: 12px 12px 0 0; /* Bordes redondeados superiores */
+}
+
+/* Ajustes para la responsividad de las tablas */
+@media (max-width: 768px) {
+    .table-responsive {
+        border: 1px solid #dee2e6; /* Borde para la tabla en móviles */
+        border-radius: 12px;
+        overflow-x: auto; /* Permite el scroll horizontal en tablas grandes */
+        -webkit-overflow-scrolling: touch; /* Mejora el scroll en iOS */
+    }
+    .table {
+        width: 100%;
+        margin-bottom: 0;
+    }
+    .table thead {
+        display: none; /* Oculta el encabezado de la tabla en móviles */
+    }
+    .table tbody tr {
+        display: block;
+        margin-bottom: 10px;
+        border: 1px solid #dee2e6;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    }
+    .table tbody td {
+        display: block;
+        text-align: right;
+        padding-left: 50%; /* Espacio para la etiqueta */
+        position: relative;
+    }
+    .table tbody td::before {
+        content: attr(data-label); /* Usa el atributo data-label para mostrar la etiqueta */
+        position: absolute;
+        left: 10px;
+        width: 45%;
+        padding-right: 10px;
+        white-space: nowrap;
+        text-align: left;
+        font-weight: bold;
+    }
+    .table tbody td:last-child {
+        text-align: center; /* Centrar las acciones */
+        padding-left: 10px; /* Ajustar padding para acciones */
+    }
+}

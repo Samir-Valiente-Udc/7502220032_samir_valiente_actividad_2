@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Gestión de Contratos</title>
+    <link href="views/css/bootstrap.min.css" rel="stylesheet">
+    <link href="views/css/style.css" rel="stylesheet">
+    <style>
+        /* Estilos básicos para centrar el contenido */
+        body {
+            font-family: 'Inter', sans-serif; /* Usar Inter como fuente principal */
+            text-align: center;
+            margin-top: 50px;
+            background-color: #f4f7f6;
+            color: #333;
+        }
+        .container-center {
+            background-color: #ffffff;
+            padding: 40px;
+            border-radius: 12px; /* Bordes redondeados */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            display: inline-block;
+            max-width: 500px;
+            width: 90%; /* Ancho fluido para responsividad */
+            margin: auto;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        h1 {
+            color: #2c3e50;
+            margin-bottom: 25px;
+            font-size: 2.5rem;
+        }
+        p {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+        .btn-custom {
+            background-color: #3498db;
+            color: white;
+            padding: 12px 25px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            display: inline-block;
+            margin: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .btn-custom:hover {
+            background-color: #2980b9;
+            transform: translateY(-2px);
+        }
+        .btn-secondary-custom {
+            background-color: #95a5a6;
+            color: white;
+            padding: 12px 25px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            display: inline-block;
+            margin: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .btn-secondary-custom:hover {
+            background-color: #7f8c8d;
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+<body>
+<div class="container-center">
+    <h1>Bienvenido al Sistema de Gestión de Contratos</h1>
+    <p>Una aplicación sencilla para administrar usuarios y sus contratos.</p>
+    <p>Por favor, inicie sesión para acceder a las funcionalidades del sistema.</p>
+    <a href="usuarios/login" class="btn-custom">Iniciar Sesión</a>
+    <p class="mt-4">¿No tienes una cuenta? <a href="usuarios/new" class="btn-secondary-custom">Regístrate</a></p>
+</div>
+
+<script src="views/js/jquery-3.5.1.slim.min.js"></script>
+<script src="views/js/popper.min.js"></script>
+<script src="views/js/bootstrap.min.js"></script>
+<script src="views/js/script.js"></script>
+</body>
+</html>
