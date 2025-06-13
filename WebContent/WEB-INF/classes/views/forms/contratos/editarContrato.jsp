@@ -1,5 +1,6 @@
 <%@include file="../../resources/header.jsp" %>
 <% request.setAttribute("pageTitle", "Editar Contrato"); %>
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
 <div class="card col-md-8 mx-auto">
     <div class="card-header">
@@ -9,16 +10,16 @@
         <form action="${pageContext.request.contextPath}/contratos/update" method="post">
             <input type="hidden" name="id" value="<c:out value="${contrato.id}"/>">
             <div class="form-group">
-                <label for="fechaFirma">Fecha de Firma:</label>
-                <input type="date" class="form-control" id="fechaFirma" name="fechaFirma" value="<c:out value="${contrato.fechaFirma}"/>" required>
+                <label for="fecha_firma">Fecha de Firma:</label>
+                <input type="date" class="form-control" id="fecha_firma" name="fecha_firma" value="<c:out value="${contrato.fecha_firma}"/>" required>
             </div>
             <div class="form-group">
-                <label for="fechaInicio">Fecha de Inicio:</label>
-                <input type="date" class="form-control" id="fechaInicio" name="fechaInicio" value="<c:out value="${contrato.fechaInicio}"/>" required>
+                <label for="fecha_inicio">Fecha de Inicio:</label>
+                <input type="date" class="form-control" id="fecha_inicio" name="fecha_inicio" value="<c:out value="${contrato.fecha_inicio}"/>" required>
             </div>
             <div class="form-group">
-                <label for="fechaFin">Fecha de Fin:</label>
-                <input type="date" class="form-control" id="fechaFin" name="fechaFin" value="<c:out value="${contrato.fechaFin}"/>" required>
+                <label for="fecha_fin">Fecha de Fin:</label>
+                <input type="date" class="form-control" id="fecha_fin" name="fecha_fin" value="<c:out value="${contrato.fecha_fin}"/>" required>
             </div>
             <div class="form-group">
                 <label for="empresa">Empresa:</label>
@@ -37,13 +38,13 @@
                 <input type="number" step="0.01" class="form-control" id="monto" name="monto" value="<c:out value="${contrato.monto}"/>" required>
             </div>
             <div class="form-group">
-                <label for="frecuenciaDePago">Frecuencia de Pago:</label>
-                <select class="form-control" id="frecuenciaDePago" name="frecuenciaDePago" required>
-                    <option value="Mensual" <c:if test="${contrato.frecuenciaDePago eq 'Mensual'}">selected</c:if>>Mensual</option>
-                    <option value="Trimestral" <c:if test="${contrato.frecuenciaDePago eq 'Trimestral'}">selected</c:if>>Trimestral</option>
-                    <option value="Semestral" <c:if test="${contrato.frecuenciaDePago eq 'Semestral'}">selected</c:if>>Semestral</option>
-                    <option value="Anual" <c:if test="${contrato.frecuenciaDePago eq 'Anual'}">selected</c:if>>Anual</option>
-                    <option value="Unico" <c:if test="${contrato.frecuenciaDePago eq 'Unico'}">selected</c:if>>Único</option>
+                <label for="frecuencia_de_pago">Frecuencia de Pago:</label>
+                <select class="form-control" id="frecuencia_de_pago" name="frecuencia_de_pago" required>
+                    <option value="Mensual" <c:if test="${contrato.frecuencia_de_pago eq 'Mensual'}">selected</c:if>>Mensual</option>
+                    <option value="Trimestral" <c:if test="${contrato.frecuencia_de_pago eq 'Trimestral'}">selected</c:if>>Trimestral</option>
+                    <option value="Semestral" <c:if test="${contrato.frecuencia_de_pago eq 'Semestral'}">selected</c:if>>Semestral</option>
+                    <option value="Anual" <c:if test="${contrato.frecuencia_de_pago eq 'Anual'}">selected</c:if>>Anual</option>
+                    <option value="Unico" <c:if test="${contrato.frecuencia_de_pago eq 'Unico'}">selected</c:if>>Único</option>
                 </select>
             </div>
             <input type="hidden" name="actionType" value="update">

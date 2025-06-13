@@ -10,7 +10,7 @@ import java.sql.SQLException;
  */
 public class DatabaseConnection {
 
-    private static final String JDBC_URL = "jdbc:mysql://localhost:3306/BD_EJERCICIO_16?useSSL=false&serverTimezone=UTC";
+    private static final String JDBC_URL = "jdbc:mysql://localhost:3306/sgc_db?useSSL=false&serverTimezone=UTC";
 
     // Nombre de usuario de la base de datos.
     private static final String JDBC_USER = "samir_valiente";

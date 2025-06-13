@@ -4,13 +4,13 @@ import main.java.models.entities.Contrato;
 import main.java.models.entities.Usuario;
 import main.java.models.services.ContratoService;
 
-import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
+import jakarta.servlet.RequestDispatcher;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
 import java.sql.Date; // Importar java.sql.Date para compatibilidad con la base de datos
 import java.util.List;
@@ -35,7 +35,7 @@ public class ContratoServlet extends HttpServlet {
 
     /**
      * Método de "filtro" de seguridad rudimentario.
-     * En una aplicación real, esto se implementaría usando un {@link javax.servlet.Filter}
+     * En una aplicación real, esto se implementaría usando un {@link jakarta.servlet.Filter}
      * para interceptar todas las peticiones a rutas protegidas antes de que lleguen al servlet.
      *
      * @param request  Petición HTTP.

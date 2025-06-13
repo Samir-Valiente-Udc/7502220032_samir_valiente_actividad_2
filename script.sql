@@ -19,14 +19,14 @@ CREATE TABLE IF NOT EXISTS Usuario (
 -- Contiene la información de los contratos gestionados.
 CREATE TABLE IF NOT EXISTS Contrato (
                                         id INT AUTO_INCREMENT PRIMARY KEY COMMENT 'Identificador único del contrato, auto-incrementable',
-                                        fechaFirma DATE NOT NULL COMMENT 'Fecha en que se firmó el contrato',
+                                        fecha_firma DATE NOT NULL COMMENT 'Fecha en que se firmó el contrato',
                                         fechaInicio DATE NOT NULL COMMENT 'Fecha de inicio de la vigencia del contrato',
-                                        fechaFin DATE NOT NULL COMMENT 'Fecha de finalización de la vigencia del contrato',
+                                        fecha_fin DATE NOT NULL COMMENT 'Fecha de finalización de la vigencia del contrato',
                                         empresa VARCHAR(255) NOT NULL COMMENT 'Nombre de la empresa involucrada en el contrato',
     empleado VARCHAR(255) NOT NULL COMMENT 'Nombre del empleado asociado al contrato',
     funciones TEXT COMMENT 'Descripción de las funciones o servicios del contrato',
     monto DECIMAL(10, 2) NOT NULL COMMENT 'Monto económico total del contrato',
-    frecuenciaDePago VARCHAR(50) NOT NULL COMMENT 'Frecuencia de pago (ej: Mensual, Trimestral, Anual)',
+    frecuencia_de_pago VARCHAR(50) NOT NULL COMMENT 'Frecuencia de pago (ej: Mensual, Trimestral, Anual)',
     usuario_username VARCHAR(50) COMMENT 'Clave foránea que referencia al usuario que gestiona este contrato',
     -- Definición de la clave foránea para relacionar con la tabla Usuario
     FOREIGN KEY (usuario_username) REFERENCES Usuario(username) ON DELETE CASCADE ON UPDATE CASCADE
@@ -39,7 +39,7 @@ INSERT INTO Usuario (username, password, nombre, email) VALUES
                                                             ('mariag', 'mariag456', 'María García', 'maria.garcia@sgc.com');
 
 -- 6. Insertar datos de ejemplo en la tabla 'Contrato'
-INSERT INTO Contrato (fechaFirma, fechaInicio, fechaFin, empresa, empleado, funciones, monto, frecuenciaDePago, usuario_username) VALUES
+INSERT INTO Contrato (fecha_firma, fechaInicio, fecha_fin, empresa, empleado, funciones, monto, frecuencia_de_pago, usuario_username) VALUES
                                                                                                                                       ('2023-01-15', '2023-02-01', '2024-01-31', 'Tech Solutions S.A.', 'Carlos Ruiz', 'Desarrollo de software a medida', 5000.00, 'Mensual', 'admin'),
                                                                                                                                       ('2023-03-01', '2023-03-10', '2024-03-09', 'Global Corp Ltda.', 'Ana López', 'Consultoría en ciberseguridad', 7500.00, 'Trimestral', 'admin'),
                                                                                                                                       ('2023-05-20', '2023-06-01', '2023-12-31', 'Innovatech S.A.S.', 'Pedro Gómez', 'Diseño y desarrollo de UX/UI', 4000.00, 'Mensual', 'juanp'),

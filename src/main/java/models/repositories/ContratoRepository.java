@@ -25,20 +25,19 @@ public class ContratoRepository {
      * @return {@code true} si la inserción fue exitosa, {@code false} en caso contrario.
      */
     public boolean createContrato(Contrato contrato) {
-        String sql = "INSERT INTO Contrato (fechaFirma, fechaInicio, fechaFin, empresa, empleado, funciones, monto, frecuenciaDePago, usuario_username) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO Contrato (fecha_firma, fecha_inicio, fecha_fin, empresa, empleado, funciones, monto, frecuencia_de_pago, usuario_username) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
         try (Connection conn = DatabaseConnection.getConnection();
              // PreparedStatement con Statement.RETURN_GENERATED_KEYS para obtener el ID auto-generado
              PreparedStatement pstmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
 
-            pstmt.setDate(1, contrato.getFechaFirma());
-            pstmt.setDate(2, contrato.getFechaInicio());
-            pstmt.setDate(3, contrato.getFechaFin());
+            pstmt.setDate(1, contrato.getFecha_firma());
+            pstmt.setDate(2, contrato.getFecha_inicio());
+            pstmt.setDate(3, contrato.getFecha_fin());
             pstmt.setString(4, contrato.getEmpresa());
             pstmt.setString(5, contrato.getEmpleado());
             pstmt.setString(6, contrato.getFunciones());
             pstmt.setDouble(7, contrato.getMonto());
-            pstmt.setString(8, contrato.getFrecuenciaDePago());
-            pstmt.setString(9, contrato.getUsuarioUsername());
+            pstmt.setString(8, contrato.getFrecuencia_de_pago());
 
             int rowsAffected = pstmt.executeUpdate(); // Ejecuta la consulta de inserción
 
@@ -66,7 +65,7 @@ public class ContratoRepository {
      * @return El objeto {@link Contrato} si se encuentra, o {@code null} si no existe.
      */
     public Contrato getContratoById(int id) {
-        String sql = "SELECT id, fechaFirma, fechaInicio, fechaFin, empresa, empleado, funciones, monto, frecuenciaDePago, usuario_username FROM Contrato WHERE id = ?";
+        String sql = "SELECT id, fecha_firma, fecha_inicio, fecha_fin, empresa, empleado, funciones, monto, frecuencia_de_pago, usuario_username FROM Contrato WHERE id = ?";
         Contrato contrato = null;
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -76,14 +75,14 @@ public class ContratoRepository {
                 if (rs.next()) { // Si se encuentra un resultado
                     contrato = new Contrato();
                     contrato.setId(rs.getInt("id"));
-                    contrato.setFechaFirma(rs.getDate("fechaFirma"));
-                    contrato.setFechaInicio(rs.getDate("fechaInicio"));
-                    contrato.setFechaFin(rs.getDate("fechaFin"));
+                    contrato.setFecha_firma(rs.getDate("fecha_firma"));
+                    contrato.setFecha_inicio(rs.getDate("fecha_inicio"));
+                    contrato.setFecha_fin(rs.getDate("fecha_fin"));
                     contrato.setEmpresa(rs.getString("empresa"));
                     contrato.setEmpleado(rs.getString("empleado"));
                     contrato.setFunciones(rs.getString("funciones"));
                     contrato.setMonto(rs.getDouble("monto"));
-                    contrato.setFrecuenciaDePago(rs.getString("frecuenciaDePago"));
+                    contrato.setFrecuencia_de_pago(rs.getString("frecuencia_de_pago"));
                     contrato.setUsuarioUsername(rs.getString("usuario_username"));
                 }
             }
@@ -100,7 +99,7 @@ public class ContratoRepository {
      * @return Una {@link List} de objetos {@link Contrato}. Retorna una lista vacía si no hay contratos.
      */
     public List<Contrato> getAllContratos() {
-        String sql = "SELECT id, fechaFirma, fechaInicio, fechaFin, empresa, empleado, funciones, monto, frecuenciaDePago, usuario_username FROM Contrato";
+        String sql = "SELECT id, fecha_firma, fecha_inicio, fecha_fin, empresa, empleado, funciones, monto, frecuencia_de_pago, usuario_username FROM Contrato";
         List<Contrato> contratos = new ArrayList<>();
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql);
@@ -109,14 +108,14 @@ public class ContratoRepository {
             while (rs.next()) { // Itera sobre cada fila del resultado
                 Contrato contrato = new Contrato();
                 contrato.setId(rs.getInt("id"));
-                contrato.setFechaFirma(rs.getDate("fechaFirma"));
-                contrato.setFechaInicio(rs.getDate("fechaInicio"));
-                contrato.setFechaFin(rs.getDate("fechaFin"));
+                contrato.setFecha_firma(rs.getDate("fecha_firma"));
+                contrato.setFecha_inicio(rs.getDate("fecha_inicio"));
+                contrato.setFecha_fin(rs.getDate("fechaf_fin"));
                 contrato.setEmpresa(rs.getString("empresa"));
                 contrato.setEmpleado(rs.getString("empleado"));
                 contrato.setFunciones(rs.getString("funciones"));
                 contrato.setMonto(rs.getDouble("monto"));
-                contrato.setFrecuenciaDePago(rs.getString("frecuenciaDePago"));
+                contrato.setFrecuencia_de_pago(rs.getString("frecuencia_de_pago"));
                 contrato.setUsuarioUsername(rs.getString("usuario_username"));
                 contratos.add(contrato); // Añade el contrato a la lista
             }
@@ -134,7 +133,7 @@ public class ContratoRepository {
      * @return Una {@link List} de objetos {@link Contrato} asociados al usuario.
      */
     public List<Contrato> getContratosByUsuario(String username) {
-        String sql = "SELECT id, fechaFirma, fechaInicio, fechaFin, empresa, empleado, funciones, monto, frecuenciaDePago, usuario_username FROM Contrato WHERE usuario_username = ?";
+        String sql = "SELECT id, fecha_firma, fecha_inicio, fecha_fin, empresa, empleado, funciones, monto, frecuencia_de_pago, usuario_username FROM Contrato WHERE usuario_username = ?";
         List<Contrato> contratos = new ArrayList<>();
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -144,14 +143,14 @@ public class ContratoRepository {
                 while (rs.next()) {
                     Contrato contrato = new Contrato();
                     contrato.setId(rs.getInt("id"));
-                    contrato.setFechaFirma(rs.getDate("fechaFirma"));
-                    contrato.setFechaInicio(rs.getDate("fechaInicio"));
-                    contrato.setFechaFin(rs.getDate("fechaFin"));
+                    contrato.setFecha_firma(rs.getDate("fecha_firma"));
+                    contrato.setFecha_inicio(rs.getDate("fecha_inicio"));
+                    contrato.setFecha_fin(rs.getDate("fecha_fin"));
                     contrato.setEmpresa(rs.getString("empresa"));
                     contrato.setEmpleado(rs.getString("empleado"));
                     contrato.setFunciones(rs.getString("funciones"));
                     contrato.setMonto(rs.getDouble("monto"));
-                    contrato.setFrecuenciaDePago(rs.getString("frecuenciaDePago"));
+                    contrato.setFrecuencia_de_pago(rs.getString("frecuencia_de_pago"));
                     contrato.setUsuarioUsername(rs.getString("usuario_username"));
                     contratos.add(contrato);
                 }
@@ -170,18 +169,18 @@ public class ContratoRepository {
      * @return {@code true} si la actualización fue exitosa, {@code false} en caso contrario.
      */
     public boolean updateContrato(Contrato contrato) {
-        String sql = "UPDATE Contrato SET fechaFirma = ?, fechaInicio = ?, fechaFin = ?, empresa = ?, empleado = ?, funciones = ?, monto = ?, frecuenciaDePago = ?, usuario_username = ? WHERE id = ?";
+        String sql = "UPDATE Contrato SET fecha_firma = ?, fecha_inicio = ?, fecha_fin = ?, empresa = ?, empleado = ?, funciones = ?, monto = ?, frecuencia_de_pago = ?, usuario_username = ? WHERE id = ?";
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
-            pstmt.setDate(1, contrato.getFechaFirma());
-            pstmt.setDate(2, contrato.getFechaInicio());
-            pstmt.setDate(3, contrato.getFechaFin());
+            pstmt.setDate(1, contrato.getFecha_firma());
+            pstmt.setDate(2, contrato.getFecha_inicio());
+            pstmt.setDate(3, contrato.getFecha_fin());
             pstmt.setString(4, contrato.getEmpresa());
             pstmt.setString(5, contrato.getEmpleado());
             pstmt.setString(6, contrato.getFunciones());
             pstmt.setDouble(7, contrato.getMonto());
-            pstmt.setString(8, contrato.getFrecuenciaDePago());
+            pstmt.setString(8, contrato.getFrecuencia_de_pago());
             pstmt.setString(9, contrato.getUsuarioUsername());
             pstmt.setInt(10, contrato.getId()); // El ID es usado en la cláusula WHERE para identificar el contrato a actualizar
 

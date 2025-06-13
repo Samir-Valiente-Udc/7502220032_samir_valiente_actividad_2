@@ -3,95 +3,90 @@ package main.java.controllers;
 import main.java.models.entities.Usuario;
 import main.java.models.services.UsuarioService;
 
-import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
+import jakarta.servlet.RequestDispatcher;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.List;
 
-/**
- * Servlet principal para la gestión de Usuarios.
- * Mapea las URL /usuarios y /usuarios/* para manejar las operaciones CRUD y autenticación.
- */
 @WebServlet(urlPatterns = {"/usuarios", "/usuarios/*"})
 public class UsuarioServlet extends HttpServlet {
-    private static final long serialVersionUID = 1L; // Identificador de versión para serialización
-    private UsuarioService usuarioService; // Instancia del servicio de usuario
+    private static final long serialVersionUID = 1L;
+    private UsuarioService usuarioService;
 
-    /**
-     * Constructor del servlet. Inicializa el servicio de usuario.
-     */
     public UsuarioServlet() {
         super();
         this.usuarioService = new UsuarioService();
     }
 
-    /**
-     * Maneja las peticiones HTTP GET.
-     * Dependiendo de la ruta de la URL, realiza diferentes acciones:
-     * - /usuarios: Lista todos los usuarios.
-     * - /usuarios/new: Muestra el formulario para crear un nuevo usuario.
-     * - /usuarios/edit?username=xxx: Muestra el formulario para editar un usuario existente.
-     * - /usuarios/delete?username=xxx: Elimina un usuario.
-     * - /usuarios/login: Muestra el formulario de inicio de sesión.
-     * - /usuarios/logout: Cierra la sesión del usuario.
-     *
-     * @param request  Objeto HttpServletRequest que contiene la petición del cliente.
-     * @param response Objeto HttpServletResponse que contiene la respuesta del servlet.
-     * @throws ServletException Si ocurre un error específico del servlet.
-     * @throws IOException      Si ocurre un error de E/S.
-     */
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String action = request.getPathInfo(); // Obtiene la parte de la URL después de /usuarios
+    private boolean checkAuthentication(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+        // Excluir las rutas de login y authenticate de la verificación
+        String path = request.getPathInfo();
+        if (path != null && (path.equals("/login") || path.equals("/authenticate"))) {
+            return true;
+        }
 
-        if (action == null) { // Si la URL es solo /usuarios
+        HttpSession session = request.getSession(false);
+        Usuario usuarioLogueado = (session != null) ? (Usuario) session.getAttribute("usuarioLogueado") : null;
+
+        if (usuarioLogueado == null) {
+            response.sendRedirect(request.getContextPath() + "/usuarios/login");
+            return false;
+        }
+        return true;
+    }
+
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String action = request.getPathInfo();
+
+        // Solo verificar autenticación para rutas que no sean login o logout
+        if (action == null || (!action.equals("/login") && !action.equals("/logout"))) {
+            if (!checkAuthentication(request, response)) {
+                return;
+            }
+        }
+
+        if (action == null) {
             listarUsuarios(request, response);
         } else {
             switch (action) {
-                case "/new": // /usuarios/new
+                case "/new":
                     mostrarFormularioCrear(request, response);
                     break;
-                case "/edit": // /usuarios/edit?username=xxx
+                case "/edit":
                     mostrarFormularioEditar(request, response);
                     break;
-                case "/delete": // /usuarios/delete?username=xxx
+                case "/delete":
                     eliminarUsuario(request, response);
                     break;
-                case "/login": // /usuarios/login
+                case "/login":
                     mostrarFormularioLogin(request, response);
                     break;
-                case "/logout": // /usuarios/logout
+                case "/logout":
                     cerrarSesion(request, response);
                     break;
-                default: // Cualquier otra sub-ruta no reconocida
-                    listarUsuarios(request, response); // Por defecto, redirige a la lista
+                default:
+                    listarUsuarios(request, response);
                     break;
             }
         }
     }
 
-    /**
-     * Maneja las peticiones HTTP POST.
-     * Dependiendo de la ruta de la URL o de un parámetro oculto, realiza diferentes acciones:
-     * - /usuarios/create: Crea un nuevo usuario.
-     * - /usuarios/update: Actualiza un usuario existente.
-     * - /usuarios/authenticate: Procesa el inicio de sesión.
-     *
-     * @param request  Objeto HttpServletRequest que contiene la petición del cliente.
-     * @param response Objeto HttpServletResponse que contiene la respuesta del servlet.
-     * @throws ServletException Si ocurre un error específico del servlet.
-     * @throws IOException      Si ocurre un error de E/S.
-     */
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String action = request.getPathInfo(); // Obtiene la parte de la URL después de /usuarios
+        String action = request.getPathInfo();
 
-        if (action == null) { // Si la URL es solo /usuarios (manejo de POST sin sub-ruta explícita)
-            // Esto es una simplificación; en un caso real se distinguiría mejor si es creación o actualización.
-            // Para este ejemplo, si el formulario envía un 'actionType' de 'update', se asume actualización.
+        // Solo verificar autenticación para rutas que no sean authenticate
+        if (action == null || !action.equals("/authenticate")) {
+            if (!checkAuthentication(request, response)) {
+                return;
+            }
+        }
+
+        if (action == null) {
             if (request.getParameter("actionType") != null && request.getParameter("actionType").equals("update")) {
                 actualizarUsuario(request, response);
             } else {
@@ -99,208 +94,124 @@ public class UsuarioServlet extends HttpServlet {
             }
         } else {
             switch (action) {
-                case "/create": // /usuarios/create
+                case "/create":
                     crearUsuario(request, response);
                     break;
-                case "/update": // /usuarios/update
+                case "/update":
                     actualizarUsuario(request, response);
                     break;
-                case "/authenticate": // /usuarios/authenticate
+                case "/authenticate":
                     autenticarUsuario(request, response);
                     break;
-                default: // Cualquier otra sub-ruta no reconocida para POST
+                default:
                     response.sendError(HttpServletResponse.SC_NOT_FOUND, "Acción POST no encontrada.");
                     break;
             }
         }
     }
 
-    /**
-     * Recupera todos los usuarios y los envía a la JSP de listado.
-     *
-     * @param request  Petición HTTP.
-     * @param response Respuesta HTTP.
-     * @throws ServletException Si ocurre un error del servlet.
-     * @throws IOException      Si ocurre un error de E/S.
-     */
+    // Resto de los métodos permanecen igual...
     private void listarUsuarios(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         List<Usuario> listaUsuarios = usuarioService.obtenerTodosLosUsuarios();
-        request.setAttribute("listaUsuarios", listaUsuarios); // Guarda la lista en el ámbito de la petición
+        request.setAttribute("listaUsuarios", listaUsuarios);
         RequestDispatcher dispatcher = request.getRequestDispatcher("/views/forms/usuarios/listarUsuarios.jsp");
-        dispatcher.forward(request, response); // Redirige a la JSP
+        dispatcher.forward(request, response);
     }
 
-    /**
-     * Muestra el formulario para crear un nuevo usuario.
-     *
-     * @param request  Petición HTTP.
-     * @param response Respuesta HTTP.
-     * @throws ServletException Si ocurre un error del servlet.
-     * @throws IOException      Si ocurre un error de E/S.
-     */
     private void mostrarFormularioCrear(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         RequestDispatcher dispatcher = request.getRequestDispatcher("/views/forms/usuarios/crearUsuario.jsp");
         dispatcher.forward(request, response);
     }
 
-    /**
-     * Muestra el formulario para editar un usuario existente, precargando sus datos.
-     *
-     * @param request  Petición HTTP.
-     * @param response Respuesta HTTP.
-     * @throws ServletException Si ocurre un error del servlet.
-     * @throws IOException      Si ocurre un error de E/S.
-     */
     private void mostrarFormularioEditar(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String username = request.getParameter("username"); // Obtiene el username de los parámetros de la URL
-        Usuario usuarioExistente = usuarioService.obtenerUsuarioPorUsername(username); // Busca el usuario
+        String username = request.getParameter("username");
+        Usuario usuarioExistente = usuarioService.obtenerUsuarioPorUsername(username);
 
         if (usuarioExistente != null) {
-            request.setAttribute("usuario", usuarioExistente); // Guarda el usuario en el ámbito de la petición
+            request.setAttribute("usuario", usuarioExistente);
             RequestDispatcher dispatcher = request.getRequestDispatcher("/views/forms/usuarios/editarUsuario.jsp");
             dispatcher.forward(request, response);
         } else {
-            // Si el usuario no se encuentra, redirige a la lista de usuarios con un mensaje de error.
             response.sendRedirect(request.getContextPath() + "/usuarios?status=error&message=UsuarioNoEncontrado");
         }
     }
 
-    /**
-     * Procesa la creación de un nuevo usuario a partir de los datos del formulario.
-     *
-     * @param request  Petición HTTP.
-     * @param response Respuesta HTTP.
-     * @throws ServletException Si ocurre un error del servlet.
-     * @throws IOException      Si ocurre un error de E/S.
-     */
     private void crearUsuario(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // Obtiene los parámetros del formulario
         String username = request.getParameter("username");
         String password = request.getParameter("password");
         String nombre = request.getParameter("nombre");
         String email = request.getParameter("email");
 
-        Usuario nuevoUsuario = new Usuario(username, password, nombre, email); // Crea un nuevo objeto Usuario
-        boolean creado = usuarioService.crearUsuario(nuevoUsuario); // Intenta crear el usuario a través del servicio
+        Usuario nuevoUsuario = new Usuario(username, password, nombre, email);
+        boolean creado = usuarioService.crearUsuario(nuevoUsuario);
 
         if (creado) {
-            // Si se creó exitosamente, redirige a la lista de usuarios con un mensaje de éxito.
             response.sendRedirect(request.getContextPath() + "/usuarios?status=success&message=UsuarioCreado");
         } else {
-            // Si hubo un error (ej. usuario ya existe), vuelve al formulario de creación con un mensaje de error.
             request.setAttribute("error", "Error al crear usuario. El nombre de usuario ya podría existir o hubo un problema.");
-            request.setAttribute("usuario", nuevoUsuario); // Para mantener los datos en el formulario
+            request.setAttribute("usuario", nuevoUsuario);
             RequestDispatcher dispatcher = request.getRequestDispatcher("/views/forms/usuarios/crearUsuario.jsp");
             dispatcher.forward(request, response);
         }
     }
 
-    /**
-     * Procesa la actualización de un usuario existente a partir de los datos del formulario.
-     *
-     * @param request  Petición HTTP.
-     * @param response Respuesta HTTP.
-     * @throws ServletException Si ocurre un error del servlet.
-     * @throws IOException      Si ocurre un error de E/S.
-     */
     private void actualizarUsuario(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // Obtiene los parámetros del formulario
         String username = request.getParameter("username");
-        String password = request.getParameter("password"); // Se asume que se envía la contraseña actual o nueva
+        String password = request.getParameter("password");
         String nombre = request.getParameter("nombre");
         String email = request.getParameter("email");
 
-        Usuario usuarioAActualizar = new Usuario(username, password, nombre, email); // Crea un objeto Usuario con los datos actualizados
-        boolean actualizado = usuarioService.actualizarUsuario(usuarioAActualizar); // Intenta actualizar el usuario
+        Usuario usuarioAActualizar = new Usuario(username, password, nombre, email);
+        boolean actualizado = usuarioService.actualizarUsuario(usuarioAActualizar);
 
         if (actualizado) {
-            // Si se actualizó exitosamente, redirige a la lista de usuarios con un mensaje de éxito.
             response.sendRedirect(request.getContextPath() + "/usuarios?status=success&message=UsuarioActualizado");
         } else {
-            // Si hubo un error, vuelve al formulario de edición con un mensaje de error.
             request.setAttribute("error", "Error al actualizar usuario.");
-            request.setAttribute("usuario", usuarioAActualizar); // Para mantener los datos en el formulario
+            request.setAttribute("usuario", usuarioAActualizar);
             RequestDispatcher dispatcher = request.getRequestDispatcher("/views/forms/usuarios/editarUsuario.jsp");
             dispatcher.forward(request, response);
         }
     }
 
-    /**
-     * Procesa la eliminación de un usuario.
-     *
-     * @param request  Petición HTTP.
-     * @param response Respuesta HTTP.
-     * @throws ServletException Si ocurre un error del servlet.
-     * @throws IOException      Si ocurre un error de E/S.
-     */
     private void eliminarUsuario(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String username = request.getParameter("username"); // Obtiene el username del usuario a eliminar
-        boolean eliminado = usuarioService.eliminarUsuario(username); // Intenta eliminar el usuario
+        String username = request.getParameter("username");
+        boolean eliminado = usuarioService.eliminarUsuario(username);
 
         if (eliminado) {
-            // Si se eliminó exitosamente, redirige a la lista con un mensaje de éxito.
             response.sendRedirect(request.getContextPath() + "/usuarios?status=success&message=UsuarioEliminado");
         } else {
-            // Si hubo un error, redirige a la lista con un mensaje de error.
             response.sendRedirect(request.getContextPath() + "/usuarios?status=error&message=ErrorEliminarUsuario");
         }
     }
 
-    /**
-     * Muestra el formulario de inicio de sesión.
-     *
-     * @param request  Petición HTTP.
-     * @param response Respuesta HTTP.
-     * @throws ServletException Si ocurre un error del servlet.
-     * @throws IOException      Si ocurre un error de E/S.
-     */
     private void mostrarFormularioLogin(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         RequestDispatcher dispatcher = request.getRequestDispatcher("/views/forms/usuarios/login.jsp");
         dispatcher.forward(request, response);
     }
 
-    /**
-     * Procesa las credenciales de inicio de sesión enviadas por el formulario.
-     *
-     * @param request  Petición HTTP.
-     * @param response Respuesta HTTP.
-     * @throws ServletException Si ocurre un error del servlet.
-     * @throws IOException      Si ocurre un error de E/S.
-     */
     private void autenticarUsuario(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String username = request.getParameter("username");
         String password = request.getParameter("password");
 
-        Usuario usuarioAutenticado = usuarioService.validarCredenciales(username, password); // Valida las credenciales
+        Usuario usuarioAutenticado = usuarioService.validarCredenciales(username, password);
 
         if (usuarioAutenticado != null) {
-            // Si las credenciales son válidas, crea o recupera la sesión HTTP.
             HttpSession session = request.getSession();
-            session.setAttribute("usuarioLogueado", usuarioAutenticado); // Guarda el objeto Usuario en la sesión
-            // Redirige a la página de inicio o al dashboard principal.
-            response.sendRedirect(request.getContextPath() + "/");
+            session.setAttribute("usuarioLogueado", usuarioAutenticado);
+            response.sendRedirect(request.getContextPath() + "/usuarios");
         } else {
-            // Si las credenciales son inválidas, vuelve al formulario de login con un mensaje de error.
             request.setAttribute("error", "Credenciales inválidas. Por favor, inténtelo de nuevo.");
             RequestDispatcher dispatcher = request.getRequestDispatcher("/views/forms/usuarios/login.jsp");
             dispatcher.forward(request, response);
         }
     }
 
-    /**
-     * Invalida la sesión actual del usuario, cerrando su sesión.
-     *
-     * @param request  Petición HTTP.
-     * @param response Respuesta HTTP.
-     * @throws ServletException Si ocurre un error del servlet.
-     * @throws IOException      Si ocurre un error de E/S.
-     */
     private void cerrarSesion(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        HttpSession session = request.getSession(false); // Obtiene la sesión existente, no crea una nueva si no hay.
+        HttpSession session = request.getSession(false);
         if (session != null) {
-            session.invalidate(); // Invalida la sesión, eliminando todos sus atributos.
+            session.invalidate();
         }
-        // Redirige a la página de login con un mensaje de éxito.
         response.sendRedirect(request.getContextPath() + "/usuarios/login?status=success&message=SesionCerrada");
     }
 }

@@ -1,5 +1,6 @@
 <%@include file="../../resources/header.jsp" %>
 <% request.setAttribute("pageTitle", "Iniciar Sesión"); %>
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
 <div class="card col-md-6 mx-auto">
     <div class="card-header">

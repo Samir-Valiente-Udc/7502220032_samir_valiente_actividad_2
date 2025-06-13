@@ -1,5 +1,6 @@
 <%@include file="../../resources/header.jsp" %>
 <% request.setAttribute("pageTitle", "Listar Contratos"); %>
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
 <div class="d-flex justify-content-between align-items-center mb-3">
     <h2>Lista de Contratos</h2>
@@ -27,14 +28,14 @@
         <c:forEach var="contrato" items="${listaContratos}">
             <tr>
                 <td><c:out value="${contrato.id}"/></td>
-                <td><c:out value="${contrato.fechaFirma}"/></td>
-                <td><c:out value="${contrato.fechaInicio}"/></td>
-                <td><c:out value="${contrato.fechaFin}"/></td>
+                <td><c:out value="${contrato.fecha_firma}"/></td>
+                <td><c:out value="${contrato.fecha_inicio}"/></td>
+                <td><c:out value="${contrato.fecha_fin}"/></td>
                 <td><c:out value="${contrato.empresa}"/></td>
                 <td><c:out value="${contrato.empleado}"/></td>
                 <td><c:out value="${contrato.funciones}"/></td>
                 <td><c:out value="${contrato.monto}"/></td>
-                <td><c:out value="${contrato.frecuenciaDePago}"/></td>
+                <td><c:out value="${contrato.frecuencia_de_pago}"/></td>
                 <td><c:out value="${contrato.usuarioUsername}"/></td>
                 <td>
                     <a href="${pageContext.request.contextPath}/contratos/edit?id=<c:out value="${contrato.id}"/>" class="btn btn-warning btn-sm mb-1">Editar</a>

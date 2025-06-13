@@ -8,14 +8,14 @@ import java.sql.Date; // Importa java.sql.Date para trabajar con fechas de la ba
  */
 public class Contrato {
     private int id;
-    private Date fechaFirma;
-    private Date fechaInicio;
-    private Date fechaFin;
+    private Date fecha_firma;
+    private Date fecha_inicio;
+    private Date fecha_fin;
     private String empresa;
     private String empleado;
     private String funciones;
     private double monto;
-    private String frecuenciaDePago;
+    private String frecuencia_de_pago;
     private String usuarioUsername; // Clave foránea que referencia al usuario asociado
 
     /**
@@ -28,24 +28,24 @@ public class Contrato {
      * Constructor para crear un objeto Contrato sin ID (útil para inserciones, donde el ID es auto-generado).
      *
      * @param fechaFirma       Fecha de firma del contrato.
-     * @param fechaInicio      Fecha de inicio de la vigencia del contrato.
-     * @param fechaFin         Fecha de finalización de la vigencia del contrato.
+     * @param fecha_inicio      Fecha de inicio de la vigencia del contrato.
+     * @param fecha_fin         Fecha de finalización de la vigencia del contrato.
      * @param empresa          Nombre de la empresa involucrada.
      * @param empleado         Nombre del empleado asociado.
      * @param funciones        Descripción de las funciones.
      * @param monto            Monto económico del contrato.
-     * @param frecuenciaDePago Frecuencia de pago (ej: "Mensual", "Anual").
+     * @param frecuencia_de_pago Frecuencia de pago (ej: "Mensual", "Anual").
      * @param usuarioUsername  Nombre de usuario del usuario que gestiona el contrato.
      */
-    public Contrato(Date fechaFirma, Date fechaInicio, Date fechaFin, String empresa, String empleado, String funciones, double monto, String frecuenciaDePago, String usuarioUsername) {
-        this.fechaFirma = fechaFirma;
-        this.fechaInicio = fechaInicio;
-        this.fechaFin = fechaFin;
+    public Contrato(Date fechaFirma, Date fecha_inicio, Date fecha_fin, String empresa, String empleado, String funciones, double monto, String frecuencia_de_pago, String usuarioUsername) {
+        this.fecha_firma = fechaFirma;
+        this.fecha_inicio = fecha_inicio;
+        this.fecha_fin = fecha_fin;
         this.empresa = empresa;
         this.empleado = empleado;
         this.funciones = funciones;
         this.monto = monto;
-        this.frecuenciaDePago = frecuenciaDePago;
+        this.frecuencia_de_pago = frecuencia_de_pago;
         this.usuarioUsername = usuarioUsername;
     }
 
@@ -54,26 +54,26 @@ public class Contrato {
      * Útil para recuperar datos de la base de datos.
      *
      * @param id               Identificador único del contrato.
-     * @param fechaFirma       Fecha de firma del contrato.
-     * @param fechaInicio      Fecha de inicio de la vigencia del contrato.
-     * @param fechaFin         Fecha de finalización de la vigencia del contrato.
+     * @param fecha_firma       Fecha de firma del contrato.
+     * @param fecha_inicio      Fecha de inicio de la vigencia del contrato.
+     * @param fecha_fin         Fecha de finalización de la vigencia del contrato.
      * @param empresa          Nombre de la empresa involucrada.
      * @param empleado         Nombre del empleado asociado.
      * @param funciones        Descripción de las funciones.
      * @param monto            Monto económico del contrato.
-     * @param frecuenciaDePago Frecuencia de pago (ej: "Mensual", "Anual").
+     * @param frecuencia_de_pago Frecuencia de pago (ej: "Mensual", "Anual").
      * @param usuarioUsername  Nombre de usuario del usuario que gestiona el contrato.
      */
-    public Contrato(int id, Date fechaFirma, Date fechaInicio, Date fechaFin, String empresa, String empleado, String funciones, double monto, String frecuenciaDePago, String usuarioUsername) {
+    public Contrato(int id, Date fecha_firma, Date fecha_inicio, Date fecha_fin, String empresa, String empleado, String funciones, double monto, String frecuencia_de_pago, String usuarioUsername) {
         this.id = id;
-        this.fechaFirma = fechaFirma;
-        this.fechaInicio = fechaInicio;
-        this.fechaFin = fechaFin;
+        this.fecha_firma = fecha_firma;
+        this.fecha_inicio = fecha_inicio;
+        this.fecha_fin = fecha_fin;
         this.empresa = empresa;
         this.empleado = empleado;
         this.funciones = funciones;
         this.monto = monto;
-        this.frecuenciaDePago = frecuenciaDePago;
+        this.frecuencia_de_pago = frecuencia_de_pago;
         this.usuarioUsername = usuarioUsername;
     }
 
@@ -87,28 +87,28 @@ public class Contrato {
         this.id = id;
     }
 
-    public Date getFechaFirma() {
-        return fechaFirma;
+    public Date getFecha_firma() {
+        return fecha_firma;
     }
 
-    public void setFechaFirma(Date fechaFirma) {
-        this.fechaFirma = fechaFirma;
+    public void setFecha_firma(Date fecha_firma) {
+        this.fecha_firma = fecha_firma;
     }
 
-    public Date getFechaInicio() {
-        return fechaInicio;
+    public Date getFecha_inicio() {
+        return fecha_inicio;
     }
 
-    public void setFechaInicio(Date fechaInicio) {
-        this.fechaInicio = fechaInicio;
+    public void setFecha_inicio(Date fecha_inicio) {
+        this.fecha_inicio = fecha_inicio;
     }
 
-    public Date getFechaFin() {
-        return fechaFin;
+    public Date getFecha_fin() {
+        return fecha_fin;
     }
 
-    public void setFechaFin(Date fechaFin) {
-        this.fechaFin = fechaFin;
+    public void setFecha_fin(Date fecha_fin) {
+        this.fecha_fin = fecha_fin;
     }
 
     public String getEmpresa() {
@@ -143,12 +143,12 @@ public class Contrato {
         this.monto = monto;
     }
 
-    public String getFrecuenciaDePago() {
-        return frecuenciaDePago;
+    public String getFrecuencia_de_pago() {
+        return frecuencia_de_pago;
     }
 
-    public void setFrecuenciaDePago(String frecuenciaDePago) {
-        this.frecuenciaDePago = frecuenciaDePago;
+    public void setFrecuencia_de_pago(String frecuencia_de_pago) {
+        this.frecuencia_de_pago = frecuencia_de_pago;
     }
 
     public String getUsuarioUsername() {
@@ -169,13 +169,13 @@ public class Contrato {
     public String toString() {
         return "Contrato{" +
                 "id=" + id +
-                ", fechaFirma=" + fechaFirma +
-                ", fechaInicio=" + fechaInicio +
-                ", fechaFin=" + fechaFin +
+                ", fecha_firma=" + fecha_firma +
+                ", fecha_inicio=" + fecha_inicio +
+                ", fecha_fin=" + fecha_fin +
                 ", empresa='" + empresa + '\'' +
                 ", empleado='" + empleado + '\'' +
                 ", monto=" + monto +
-                ", frecuenciaDePago='" + frecuenciaDePago + '\'' +
+                ", frecuencia_de_pago='" + frecuencia_de_pago + '\'' +
                 ", usuarioUsername='" + usuarioUsername + '\'' +
                 '}';
     }

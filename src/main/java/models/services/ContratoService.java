@@ -29,7 +29,7 @@ public class ContratoService {
      */
     public boolean crearContrato(Contrato contrato) {
         // Ejemplo de validación de negocio: asegurar que las fechas son coherentes
-        if (contrato.getFechaInicio().after(contrato.getFechaFin())) {
+        if (contrato.getFecha_inicio().after(contrato.getFecha_fin())) {
             System.err.println("Error en ContratoService: La fecha de inicio no puede ser posterior a la fecha de fin.");
             return false;
         }
@@ -74,7 +74,7 @@ public class ContratoService {
      */
     public boolean actualizarContrato(Contrato contrato) {
         // Ejemplo de validación de negocio antes de actualizar
-        if (contrato.getFechaInicio().after(contrato.getFechaFin())) {
+        if (contrato.getFecha_inicio().after(contrato.getFecha_fin())) {
             System.err.println("Error en ContratoService: La fecha de inicio no puede ser posterior a la fecha de fin durante la actualización.");
             return false;
         }

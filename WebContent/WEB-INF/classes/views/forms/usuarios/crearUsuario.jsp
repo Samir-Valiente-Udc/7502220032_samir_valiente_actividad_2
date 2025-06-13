@@ -1,5 +1,6 @@
 <%@include file="../../resources/header.jsp" %>
 <% request.setAttribute("pageTitle", "Crear Usuario"); %>
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
 <div class="card col-md-8 mx-auto">
     <div class="card-header">
