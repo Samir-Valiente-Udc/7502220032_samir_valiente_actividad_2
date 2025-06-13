@@ -5,6 +5,8 @@ import java.sql.Date; // Importa java.sql.Date para trabajar con fechas de la ba
 /**
  * Entidad que representa un contrato en el Sistema de Gestión de Contratos (SGC).
  * Corresponde a la tabla 'Contrato' en la base de datos.
+ * Cada contrato contiene información sobre la firma, vigencia, empresa, empleado, funciones, monto, frecuencia de pago y usuario asociado.
+ * 
  */
 public class Contrato {
     private int id;

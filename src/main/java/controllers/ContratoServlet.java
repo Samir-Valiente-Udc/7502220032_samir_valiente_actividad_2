@@ -12,14 +12,16 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
-import java.sql.Date; // Importar java.sql.Date para compatibilidad con la base de datos
+import java.sql.Date;
 import java.util.List;
 
 /**
  * Servlet principal para la gestión de Contratos.
  * Mapea las URL /contratos y /contratos/* para manejar las operaciones CRUD.
  * Incluye una verificación de autenticación básica.
+ * Ademas de ser el encargado de  manejar las peticiones HTTP GET y POST
  */
+
 @WebServlet(urlPatterns = {"/contratos", "/contratos/*"})
 public class ContratoServlet extends HttpServlet {
     private static final long serialVersionUID = 1L; // Identificador de versión para serialización
@@ -218,17 +220,17 @@ public class ContratoServlet extends HttpServlet {
 
         try {
             // Obtiene y convierte los parámetros del formulario a los tipos de datos correctos
-            Date fechaFirma = Date.valueOf(request.getParameter("fechaFirma"));
-            Date fechaInicio = Date.valueOf(request.getParameter("fechaInicio"));
-            Date fechaFin = Date.valueOf(request.getParameter("fechaFin"));
+            Date fecha_firma = Date.valueOf(request.getParameter("fecha_firma"));
+            Date fecha_inicio = Date.valueOf(request.getParameter("fecha_inicio"));
+            Date fecha_fin = Date.valueOf(request.getParameter("fecha_fin"));
             String empresa = request.getParameter("empresa");
             String empleado = request.getParameter("empleado");
             String funciones = request.getParameter("funciones");
             double monto = Double.parseDouble(request.getParameter("monto"));
-            String frecuenciaDePago = request.getParameter("frecuenciaDePago");
+            String frecuencia_de_pago = request.getParameter("frecuencia_de_pago");
 
             // Crea un nuevo objeto Contrato, asociándolo al usuario logueado
-            Contrato nuevoContrato = new Contrato(fechaFirma, fechaInicio, fechaFin, empresa, empleado, funciones, monto, frecuenciaDePago, usuarioLogueado.getUsername());
+            Contrato nuevoContrato = new Contrato(fecha_firma, fecha_inicio, fecha_fin, empresa, empleado, funciones, monto, frecuencia_de_pago, usuarioLogueado.getUsername());
             boolean creado = contratoService.crearContrato(nuevoContrato); // Intenta crear el contrato
 
             if (creado) {
@@ -269,14 +271,14 @@ public class ContratoServlet extends HttpServlet {
         try {
             // Obtiene y convierte los parámetros del formulario
             int id = Integer.parseInt(request.getParameter("id"));
-            Date fechaFirma = Date.valueOf(request.getParameter("fechaFirma"));
-            Date fechaInicio = Date.valueOf(request.getParameter("fechaInicio"));
-            Date fechaFin = Date.valueOf(request.getParameter("fechaFin"));
+            Date fechaFirma = Date.valueOf(request.getParameter("fecha_firma"));
+            Date fechaInicio = Date.valueOf(request.getParameter("fecha_inicio"));
+            Date fechaFin = Date.valueOf(request.getParameter("fecha_fin"));
             String empresa = request.getParameter("empresa");
             String empleado = request.getParameter("empleado");
             String funciones = request.getParameter("funciones");
             double monto = Double.parseDouble(request.getParameter("monto"));
-            String frecuenciaDePago = request.getParameter("frecuenciaDePago");
+            String frecuenciaDePago = request.getParameter("frecuencia_de_pago");
 
             // Crea un objeto Contrato con los datos actualizados
             Contrato contratoAActualizar = new Contrato(id, fechaFirma, fechaInicio, fechaFin, empresa, empleado, funciones, monto, frecuenciaDePago, usuarioLogueado.getUsername());

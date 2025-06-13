@@ -3,6 +3,7 @@ package main.java.models.entities;
 /**
  * Entidad que representa a un usuario en el Sistema de Gestión de Contratos (SGC).
  * Corresponde a la tabla 'Usuario' en la base de datos.
+ * Cada usuario tiene un nombre de usuario único, una contraseña, un nombre completo y un correo electrónico.
  */
 public class Usuario {
     private String username;

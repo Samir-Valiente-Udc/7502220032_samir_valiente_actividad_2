@@ -8,6 +8,8 @@ import java.util.List;
 /**
  * Clase de servicio que encapsula la lógica de negocio para la entidad {@link Usuario}.
  * Actúa como intermediario entre los controladores y el repositorio, aplicando reglas de negocio.
+ * Proporciona métodos para crear, obtener, actualizar y eliminar usuarios.
+ * Esta clase puede incluir validaciones de negocio y transformaciones de datos antes de interactuar con el repositorio.
  */
 public class UsuarioService {
     private UsuarioRepository usuarioRepository;

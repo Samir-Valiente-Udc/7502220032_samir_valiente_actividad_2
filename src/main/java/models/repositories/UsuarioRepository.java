@@ -13,6 +13,7 @@ import java.util.List;
 /**
  * Clase que maneja las operaciones de acceso a datos (CRUD) para la entidad {@link Usuario}.
  * Se comunica directamente con la base de datos.
+ *  Esta clase proporciona métodos para crear, leer, actualizar y eliminar usuarios.
  */
 public class UsuarioRepository {
 

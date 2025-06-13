@@ -8,6 +8,8 @@ import java.util.List;
 /**
  * Clase de servicio que encapsula la lógica de negocio para la entidad {@link Contrato}.
  * Actúa como intermediario entre los controladores y el repositorio.
+ *  Proporciona métodos para crear, obtener, actualizar y eliminar contratos.
+ * Esta clase puede incluir validaciones de negocio y transformaciones de datos antes de interactuar con el repositorio.
  */
 public class ContratoService {
     private ContratoRepository contratoRepository;

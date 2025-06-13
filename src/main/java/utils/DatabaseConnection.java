@@ -7,6 +7,8 @@ import java.sql.SQLException;
 /**
  * Clase de utilidad para gestionar la conexión a la base de datos MySQL.
  * Proporciona métodos estáticos para obtener y cerrar conexiones.
+ * Esta clase utiliza el patrón Singleton para asegurar que solo se cree una conexión a la base de datos.
+ * 
  */
 public class DatabaseConnection {
 

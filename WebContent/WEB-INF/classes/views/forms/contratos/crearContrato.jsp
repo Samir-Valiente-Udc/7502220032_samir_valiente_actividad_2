@@ -7,7 +7,7 @@
         <h3 class="text-center">Crear Nuevo Contrato</h3>
     </div>
     <div class="card-body">
-        <form action="${pageContext.request.contextPath}/contratos/guardar" method="post">
+        <form action="${pageContext.request.contextPath}/contratos/create" method="post">
             <div class="form-group">
                 <label for="fecha_firma">Fecha de Firma:</label>
                 <input type="date" class="form-control" id="fecha_firma" name="fecha_firma" required>

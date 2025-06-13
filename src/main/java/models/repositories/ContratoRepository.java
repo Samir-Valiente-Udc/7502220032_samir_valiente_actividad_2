@@ -14,6 +14,8 @@ import java.util.List;
 /**
  * Clase que maneja las operaciones de acceso a datos (CRUD) para la entidad {@link Contrato}.
  * Se comunica directamente con la base de datos.
+ *  Esta clase proporciona métodos para crear, leer y listar contratos.
+ *
  */
 public class ContratoRepository {
 
@@ -38,6 +40,7 @@ public class ContratoRepository {
             pstmt.setString(6, contrato.getFunciones());
             pstmt.setDouble(7, contrato.getMonto());
             pstmt.setString(8, contrato.getFrecuencia_de_pago());
+            pstmt.setString(9, contrato.getUsuarioUsername());
 
             int rowsAffected = pstmt.executeUpdate(); // Ejecuta la consulta de inserción
 
@@ -110,7 +113,7 @@ public class ContratoRepository {
                 contrato.setId(rs.getInt("id"));
                 contrato.setFecha_firma(rs.getDate("fecha_firma"));
                 contrato.setFecha_inicio(rs.getDate("fecha_inicio"));
-                contrato.setFecha_fin(rs.getDate("fechaf_fin"));
+                contrato.setFecha_fin(rs.getDate("fecha_fin"));
                 contrato.setEmpresa(rs.getString("empresa"));
                 contrato.setEmpleado(rs.getString("empleado"));
                 contrato.setFunciones(rs.getString("funciones"));
